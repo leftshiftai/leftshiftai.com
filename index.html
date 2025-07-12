@@ -861,6 +861,17 @@
         html {
             scroll-behavior: smooth;
         }
+        
+        /* Hide number input spinners */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
 
         /* Visual Timeline Styles */
         .visual-timeline {
@@ -1051,6 +1062,11 @@
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
         }
 
         /* Visual ROI Calculator */
@@ -1450,27 +1466,46 @@
                         </div>
                     </div>
                 </div>
-                <div style="flex: 1; min-width: 300px; text-align: center; padding: 1.5rem; background: var(--gradient-2); border: 1px solid var(--border); border-radius: 12px;">
-                    <p style="font-weight: 700; font-size: 1.25rem; margin: 0 0 0.75rem 0; color: var(--text-primary);">Enterprise <span style="color: var(--accent);">ROI</span></p>
-                    <div style="display: flex; justify-content: space-around; gap: 1rem;">
-                        <div>
-                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--accent);">30%</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">productivity</div>
+                <div style="flex: 1; min-width: 300px; text-align: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%); border: 1px solid rgba(74, 158, 255, 0.3); border-radius: 16px; position: relative; overflow: hidden;">
+                    <!-- Animated background effect -->
+                    <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(74, 158, 255, 0.1) 0%, transparent 70%); animation: pulse 4s ease-in-out infinite;"></div>
+                    
+                    <p style="font-weight: 700; font-size: 1rem; margin: 0 0 0.75rem 0; color: var(--text-primary); position: relative;">Calculate Your <span style="color: var(--accent);">ROI</span></p>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; position: relative;">
+                        <div style="flex: 1;">
+                            <div class="roi-input-box" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(74, 158, 255, 0.2); border-radius: 10px; padding: 0.5rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='rgba(74, 158, 255, 0.5)'; this.style.background='rgba(0, 0, 0, 0.5)'" onmouseout="this.style.borderColor='rgba(74, 158, 255, 0.2)'; this.style.background='rgba(0, 0, 0, 0.3)'">
+                                <label style="font-size: 0.5625rem; color: var(--accent); display: block; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.125rem;">Engineers</label>
+                                <input type="number" id="teamSize" value="100" min="10" max="10000" style="width: 100%; padding: 0; background: transparent; border: none; color: var(--text-primary); font-size: 1.25rem; font-weight: 700; text-align: center; outline: none; cursor: pointer;">
+                            </div>
                         </div>
-                        <div>
-                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--accent);">$13M</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">saved/year</div>
+                        <div style="flex: 1;">
+                            <div class="roi-input-box" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(74, 158, 255, 0.2); border-radius: 10px; padding: 0.5rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='rgba(74, 158, 255, 0.5)'; this.style.background='rgba(0, 0, 0, 0.5)'" onmouseout="this.style.borderColor='rgba(74, 158, 255, 0.2)'; this.style.background='rgba(0, 0, 0, 0.3)'">
+                                <label style="font-size: 0.5625rem; color: var(--accent); display: block; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.125rem;">Productivity Boost</label>
+                                <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+                                    <input type="number" id="productivityGain" value="30" min="10" max="100" style="width: auto; max-width: 60px; padding: 0; background: transparent; border: none; color: var(--text-primary); font-size: 1.25rem; font-weight: 700; text-align: center; outline: none; cursor: pointer;">
+                                    <span style="color: var(--text-primary); font-size: 1.25rem; font-weight: 700; margin-left: 2px;">%</span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <div style="font-size: 1.75rem; font-weight: 700; color: var(--accent);">30</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">days</div>
+                    </div>
+                    
+                    <div style="position: relative;">
+                        <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.1) 100%); border: 2px solid rgba(34, 197, 94, 0.5); border-radius: 12px; padding: 0.75rem; position: relative; overflow: hidden;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%); animation: shimmer 3s infinite;"></div>
+                            <div id="annualSavings" style="font-size: 2rem; font-weight: 800; color: #22c55e; margin-bottom: 0.125rem; position: relative; text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);">$15M</div>
+                            <div style="font-size: 0.75rem; color: var(--text-primary); position: relative;">= <span id="equivalentHires" style="font-weight: 700;">30</span> engineers worth</div>
+                        </div>
+                        
+                        <div style="margin-top: 0.5rem; font-size: 0.6875rem; color: var(--text-secondary);">
+                            ⚡ Results in 45-90 days
                         </div>
                     </div>
                 </div>
             </div>
 
             <p class="hero-subtitle" style="font-size: 1.25rem; margin: 1.5rem auto 2rem;">
-                Forward deployed principal engineers. <span style="color: var(--accent); font-weight: 600;">Proven enterprise playbooks.</span>
+                Forward deployed <span style="color: var(--accent); font-weight: 600;">principal engineers</span> with proven <span style="color: var(--accent); font-weight: 600;">enterprise playbooks</span>.
             </p>
             
             <div class="hero-cta">
@@ -1919,6 +1954,47 @@
     </footer>
 
     <script>
+        // ROI Calculator
+        function calculateROI() {
+            const teamSize = parseInt(document.getElementById('teamSize').value) || 100;
+            const productivityGain = parseInt(document.getElementById('productivityGain').value) || 30;
+            const salaryPerEngineer = 500000;
+            
+            // Calculate equivalent engineers gained through productivity
+            const equivalentEngineers = Math.round(teamSize * (productivityGain / 100));
+            
+            // Calculate annual savings (equivalent engineers * salary)
+            const annualSavings = equivalentEngineers * salaryPerEngineer;
+            
+            // Format savings
+            let savingsText = '';
+            if (annualSavings >= 1000000000) {
+                savingsText = `$${(annualSavings / 1000000000).toFixed(1)}B`;
+            } else if (annualSavings >= 1000000) {
+                savingsText = `$${Math.round(annualSavings / 1000000)}M`;
+            } else {
+                savingsText = `$${Math.round(annualSavings / 1000)}K`;
+            }
+            
+            // Update display
+            document.getElementById('annualSavings').textContent = savingsText;
+            document.getElementById('equivalentHires').textContent = equivalentEngineers;
+        }
+        
+        // Set up event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const teamSizeInput = document.getElementById('teamSize');
+            const productivityInput = document.getElementById('productivityGain');
+            
+            if (teamSizeInput && productivityInput) {
+                teamSizeInput.addEventListener('input', calculateROI);
+                productivityInput.addEventListener('input', calculateROI);
+                
+                // Initial calculation
+                calculateROI();
+            }
+        });
+        
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
